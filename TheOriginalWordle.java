@@ -5,13 +5,11 @@ public class TheOriginalWordle {
 
         public static final int RANDOM_GAME = -1;
         
-        public static final int CODE_LENGTH = 4;
-        
-        public static final int NUM_OF_COLORS = 6;
-        
-        public static final int NUM_OF_GUESSES_PER_ROUND = 8;
+        public static final int MIN_ROUNDS = 1;
         
         public static final int MAX_ROUNDS = 10;
+        
+        public static final int MAX_NAME_CHARACTERS = 50;
         
     public static void main(String args[]) {
     
@@ -20,10 +18,8 @@ public class TheOriginalWordle {
             System.exit(1);
         }
         
-        System.out.println("\n   Welcome to The Original Wordle!");
-        System.out.println("A game of logic, with a bit of chance.\n");
+        displayWelcome();
         
-        System.out.println("This game is for 2 players.");
         System.out.print("Player 1 name? ");
         
         Scanner console = new Scanner(System.in);
@@ -31,7 +27,7 @@ public class TheOriginalWordle {
         
         // Error checking - player 1 name
         
-        while (p1Name.length() > 50) {
+        while (p1Name.length() > MAX_NAME_CHARACTERS) {
             System.out.println("\nName too long - max 50 characters");
             System.out.print("Player 1 name? ");
             p1Name = console.nextLine();
@@ -42,7 +38,7 @@ public class TheOriginalWordle {
         
         // Error checking - player 2 name
         
-        while (p2Name.length() > 50) {
+        while (p2Name.length() > MAX_NAME_CHARACTERS) {
             System.out.println("\nName too long - max 50 characters");
             System.out.print("Player 2 name? ");
             p2Name = console.nextLine();
@@ -80,11 +76,11 @@ public class TheOriginalWordle {
         int p1Points = 0;
         int p2Points = 0;
         
-        System.out.println("\nGreat! 4-color codes have been initialized for both players. " +
+        System.out.println("\nGreat! codes have been initialized for both players. " +
                            "Lets begin.");
                            
-        System.out.println("\nNote : guess format must be 4 characters, " +
-                           "no spaces included e.g. YWGG");
+        System.out.println("\nNote : guess format must be 4 characters,");
+        System.out.println("       no spaces included and no duplicates e.g. BOYG");
         
         for (int i = 0; i < numRounds; i++) { // "For each round ..."
             
@@ -97,22 +93,22 @@ public class TheOriginalWordle {
                 
                 switch (color) {
                     case 0:
-                        secretCodeList[j] = 'R'; // Red
+                        secretCodeList[j] = RED;
                         break;
                     case 1:
-                        secretCodeList[j] = 'G'; // Greene
+                        secretCodeList[j] = GREEN;
                         break;
                     case 2:
-                        secretCodeList[j] = 'B'; // Blue
+                        secretCodeList[j] = BLUE;
                         break;
                     case 3:
-                        secretCodeList[j] = 'Y'; // Yellow
+                        secretCodeList[j] = YELLOW;
                         break;
                     case 4:
-                        secretCodeList[j] = 'K'; // Black
+                        secretCodeList[j] = ORANGE;
                         break;
                     case 5:
-                        secretCodeList[j] = 'W'; // White
+                        secretCodeList[j] = PURPLE;
                         break;
                     default:
                         break;
@@ -131,7 +127,7 @@ public class TheOriginalWordle {
                 System.out.println("\n[Round " + round + ", Guess " + numGuesses + "] " +
                                    "Total Points for " + p1Name + " : " + p1Points);
                 System.out.print(p1Name + ", please enter guess (R-ed, Y-ellow, B-lue, " +
-                                   "G-reen, Blac-K, W-hite): ");
+                                   "G-reen, O-range, P-urple): ");
                 
                 String p1Guess = console.next();
                 
@@ -155,7 +151,7 @@ public class TheOriginalWordle {
                 System.out.println("\n[Round " + round + ", Guess " + numGuesses + "] " +
                                    "Total Points for " + p2Name + " : " + p2Points);
                 System.out.print(p2Name + ", please enter guess (R-ed, Y-ellow, B-lue, " +
-                                   "G-reen, Blac-K, W-hite): ");
+                                   "G-reen, O-range, P-urple): ");
                                    
                 String p2Guess = console.next();
                                    
@@ -211,5 +207,41 @@ public class TheOriginalWordle {
         }
         
         // Error handling
+    }
+    
+    /** 
+     * This method will print the display message.  
+     * This method will also print the directions on how the game is played 
+     * and the rules of the game.
+     * 
+     */
+    public static void displayWelcome() {
+        
+        System.out.println("\n   Welcome to The Original Wordle!");
+        System.out.println("A game of logic, with a bit of chance.");
+        
+        System.out.println("\nHOW TO PLAY");
+        
+        System.out.print("\nThe Original Wordle is designed to mimic the game Mastermind. ");
+        System.out.print("The goal of the game is to guess a randomized, hidden sequence of ");
+        System.out.print("four colors in the correct order while gaining the least amount of ");
+        System.out.print("points. This is a two player game in which player’s take turns trying");
+        System.out.print("to guess a randomized sequence of colors in the least amount of ");
+        System.out.print("guesses possible. The maximum number of guesses per sequence is 8 ");
+        System.out.print("guesses. A player gains one point for each guess and receives two ");
+        System.out.print("extra points if the sequence is not guessed within the maximum number");
+        System.out.print("of guesses allowed. Feedback regarding the guess success is provided");
+        System.out.print("back (in the form of white and black key pegs) to the player after ");
+        System.out.print("each guess. White key pegs will represent a color that has been ");
+        System.out.print("guessed correctly but placed in the wrong position of the sequence. ");
+        System.out.print("Black key pegs will be displayed for each color guessed correctly and ");
+        System.out.print("in the correct position of the sequence.  When a player receives four ");
+        System.out.print("black key pegs as feedback the player has guessed the hidden sequence ");
+        System.out.print("of four colors correctly. The game is won by the player who has the ");
+        System.out.print("least amount of points at the end of the last round.  Please note ");
+        System.out.print("that the number of rounds is determined by the players at the start ");
+        System.out.println("of the game.");
+        
+        System.out.println("\nThis game is for 2 players.");
     }
 }
