@@ -57,7 +57,7 @@ public class TheOriginalWordle {
         
         int numRounds = console.nextInt();
                 
-        while (numRounds < 1 || numRounds > MAX_ROUNDS) {
+        while (numRounds < MIN_ROUNDS || numRounds > MAX_ROUNDS) {
             System.out.println("\nInvalid number of rounds. " +
                                "Please enter an integer between 1 and 10, inclusive.");
             System.out.print("Number of rounds? ");
@@ -72,59 +72,39 @@ public class TheOriginalWordle {
             numRounds = console.nextInt();
         }
         
-        int round = 1;
-        int p1Points = 0;
-        int p2Points = 0;
-        
         System.out.println("\nGreat! codes have been initialized for both players. " +
                            "Lets begin.");
                            
         System.out.println("\nNote : guess format must be 4 characters,");
         System.out.println("       no spaces included and no duplicates e.g. BOYG");
         
-        for (int i = 0; i < numRounds; i++) { // "For each round ..."
+        int round = 1;
+        int p1Points = 0;
+        int p2Points = 0;
+        int p1numBlackPegs = 0;
+        int p1numWhitePegs = 0;
+        int p2numBlackPegs = 0;
+        int p2numWhitePegs = 0;
+        
+        for (int i = 1; i <= numRounds; i++) {
+        
+            for (int j = 1; j <= Player.MAX_NUM_OF_GUESSES; j++) {
             
-            char[] secretCodeList = new char[CODE_LENGTH];
-            
-            for (int j = 0; j < CODE_LENGTH; j++) { // Should we make this a class?
+                GuessAnalysis p1 = new GuessAnalysis(Integer.parseInt(args[0])        );
+                GuessAnalysis p2 = new GuessAnalysis(Integer.parseInt(args[0]) * 2 + 1);
                 
-                Random rand = new Random();
-                int color = rand.nextInt(NUM_OF_COLORS);
+                // DELETE BEFORE SUBMISSION - Shows passcodes
+                String p1Passcode = p1.x();
+                String p2Passcode = p2.x();
+                System.out.println();
+                System.out.println("p1Passcode : " + p1Passcode);
+                System.out.println("p2Passcode : " + p2Passcode);
                 
-                switch (color) {
-                    case 0:
-                        secretCodeList[j] = RED;
-                        break;
-                    case 1:
-                        secretCodeList[j] = GREEN;
-                        break;
-                    case 2:
-                        secretCodeList[j] = BLUE;
-                        break;
-                    case 3:
-                        secretCodeList[j] = YELLOW;
-                        break;
-                    case 4:
-                        secretCodeList[j] = ORANGE;
-                        break;
-                    case 5:
-                        secretCodeList[j] = PURPLE;
-                        break;
-                    default:
-                        break;
+                if (j != 1) {
+                    // Display p1 board
                 }
-            }
-            
-            String secretCode = "";
-            for (int l = 0; l < CODE_LENGTH; l++) {
-                secretCode += secretCodeList[l];
-            }
-            
-            int numGuesses = 1;
-            
-            for (int k = 0; k < NUM_OF_GUESSES_PER_ROUND; k++) {
-            
-                System.out.println("\n[Round " + round + ", Guess " + numGuesses + "] " +
+                
+                System.out.println("\n[Round " + round + ", Guess " + j + "] " +
                                    "Total Points for " + p1Name + " : " + p1Points);
                 System.out.print(p1Name + ", please enter guess (R-ed, Y-ellow, B-lue, " +
                                    "G-reen, O-range, P-urple): ");
@@ -133,52 +113,40 @@ public class TheOriginalWordle {
                 
                 // Error handling
                 
-                GuessAnalysis p1 = new GuessAnalysis(p1Guess, secretCode);
-                
-                int p1numBlackPegs = 0;
-                int p1numWhitePegs = 0;
-                
-                if (!p1.isCorrectCode()) {
-                    p1Points++;
-                    p1numBlackPegs = p1.numCorrectColorAndSlot();
-                    p1numWhitePegs = p1.numCorrectColor();
-                }
-                
-                else {
+                if (p1.compareCode(p1Guess)) {
                     // Correct guess!
                 }
                 
-                System.out.println("\n[Round " + round + ", Guess " + numGuesses + "] " +
+                else {
+                    p1numBlackPegs = p1.numCorrectColorAndSlot(p1Guess);
+                    p1numWhitePegs = p1.numCorrectColor(p1Guess);
+                }
+                
+                if (j != 1) {
+                    // Display p2 board
+                }
+                
+                System.out.println("\n[Round " + round + ", Guess " + j + "] " +
                                    "Total Points for " + p2Name + " : " + p2Points);
-                System.out.print(p2Name + ", please enter guess (R-ed, Y-ellow, B-lue, " +
+                System.out.print(p1Name + ", please enter guess (R-ed, Y-ellow, B-lue, " +
                                    "G-reen, O-range, P-urple): ");
-                                   
+                
                 String p2Guess = console.next();
-                                   
+                
                 // Error handling
                 
-                GuessAnalysis p2 = new GuessAnalysis(p2Guess, secretCode);
-                
-                int p2numBlackPegs = 0;
-                int p2numWhitePegs = 0;
-                
-                if (!p2.isCorrectCode()) {
-                    p2Points++;
-                    p2numBlackPegs = p2.numCorrectColorAndSlot();
-                    p2numWhitePegs = p2.numCorrectColor();
+                if (p2.compareCode(p2Guess)) {
+                    // Correct guess!
                 }
                 
                 else {
-                    // Correct guess!
+                    p2numBlackPegs = p2.numCorrectColorAndSlot(p2Guess);
+                    p2numWhitePegs = p2.numCorrectColor(p2Guess);
                 }
                 
                 // ERASE : Original purpose to test numBlackPegs & numWhitePegs
                 System.out.println("\n" + p1numBlackPegs + " & " + p1numWhitePegs);
                 System.out.println(       p2numBlackPegs + " & " + p2numWhitePegs);
-                
-                // Display scoreboard (call scoreboard class?)
-                
-                numGuesses++;
             }
             
             System.out.println("\nTotals");
@@ -209,6 +177,7 @@ public class TheOriginalWordle {
         // Error handling
     }
     
+    
     /** 
      * This method will print the display message.  
      * This method will also print the directions on how the game is played 
@@ -220,7 +189,7 @@ public class TheOriginalWordle {
         System.out.println("\n   Welcome to The Original Wordle!");
         System.out.println("A game of logic, with a bit of chance.");
         
-        System.out.println("\nHOW TO PLAY");
+        System.out.println("\n             HOW TO PLAY");
         
         System.out.print("\nThe Original Wordle is designed to mimic the game Mastermind. ");
         System.out.print("The goal of the game is to guess a randomized, hidden sequence of ");

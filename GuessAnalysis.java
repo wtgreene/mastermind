@@ -1,4 +1,6 @@
-public class PassCode {
+import java.util.Random;
+
+public class GuessAnalysis {
 
     public static final int CODE_LENGTH = 4;
         
@@ -19,17 +21,63 @@ public class PassCode {
     public static final char ORANGE = 'O';
     
     public static final char PURPLE = 'P';
-    
-    private String guess;
-    
+        
     private String passcode;
     private String feedback;
     
     /**
      * PassCode constructor - creates new secret code
      */
-    public PassCode() {
-        // TODO
+    public GuessAnalysis(int seed) {
+    
+        Random rand = new Random(seed);
+        char[] secretCodeList = new char[CODE_LENGTH];
+        
+        for (int i = 0; i < CODE_LENGTH; i++) {
+        
+            // See repeat logic in the for loop below the switch statement
+            boolean repeat = true;
+            while (repeat) {
+                repeat = false;
+                
+                int color = rand.nextInt(NUM_OF_COLORS);
+
+                switch (color) {
+                    case 0:
+                        secretCodeList[i] = RED;
+                        break;
+                    case 1:
+                        secretCodeList[i] = GREEN;
+                        break;
+                    case 2:
+                        secretCodeList[i] = BLUE;
+                        break;
+                    case 3:
+                        secretCodeList[i] = YELLOW;
+                        break;
+                    case 4:
+                        secretCodeList[i] = ORANGE;
+                        break;
+                    case 5:
+                        secretCodeList[i] = PURPLE;
+                        break;
+                    default:
+                        break;
+                }
+                
+                // To make sure of no repeat colors, when creating passcode
+                for (int j = 0; j < i; j++) {
+                    if (secretCodeList[i] == secretCodeList[j]) {
+                        repeat = true;
+                    }
+                }
+            }
+        }
+        
+        passcode = "";
+        for (int i = 0; i < CODE_LENGTH; i++) {
+            passcode += secretCodeList[i];
+        }
     }
     
     /**
@@ -38,13 +86,9 @@ public class PassCode {
      * @return true if code is equal to guess
      *         false if not is not equal to guess
      */
-    public boolean compareCode() {
+    public boolean compareCode(String guess) {
         // TODO
-    }
-    
-    // I think we can delete this method but leaving it for now just in case
-    public boolean isCorrectCode() {
-        if (guess.equals(code)) {
+        if (guess.equals(passcode)) {
             return true;
         }
         
@@ -53,6 +97,27 @@ public class PassCode {
         }
     }
     
+    public String x() {
+        return passcode;
+    }
+    
+    
+    /*
+    
+    I think we can delete this method but leaving it for now just in case
+    
+    public boolean isCorrectCode() {
+        if (guess.equals(passcode)) {
+            return true;
+        }
+        
+        else {
+            return false;
+        }
+    }
+    
+    */
+    
     /**
      * This method evaluates the players guess to determine if there are any colors in the 
      * correct sequence compared to the passcode. If found, the number of black pegs will be
@@ -60,11 +125,11 @@ public class PassCode {
      *
      * @return numBlack the number of black pegs needed in the feedback String.
      */
-    public int numCorrectColorAndSlot() {
+    public int numCorrectColorAndSlot(String guess) {
         int numBlack = 0;
         
-        for (int i = 0; i < TheOriginalWordle.CODE_LENGTH; i++) {
-            if (guess.charAt(i) == code.charAt(i)) {
+        for (int i = 0; i < CODE_LENGTH; i++) {
+            if (guess.charAt(i) == passcode.charAt(i)) {
                 numBlack++;
             }
         }
@@ -79,15 +144,15 @@ public class PassCode {
      *
      * @return numWhite the number of white pegs needed in the feedback String.
      */
-    public int numCorrectColor() {
+    public int numCorrectColor(String guess) {
         int numWhite = 0;
         
-        for (int i = 0; i < TheOriginalWordle.CODE_LENGTH; i++) {
-            if (guess.charAt(i) != code.charAt(i)) {
+        for (int i = 0; i < CODE_LENGTH; i++) {
+            if (guess.charAt(i) != passcode.charAt(i)) {
                 boolean instance = false;
                 
-                for (int j = 0; j < TheOriginalWordle.CODE_LENGTH; j++) {
-                    if (guess.charAt(i) == code.charAt(j)) {
+                for (int j = 0; j < CODE_LENGTH; j++) {
+                    if (guess.charAt(i) == passcode.charAt(j)) {
                         instance = true;
                     }
                 }
@@ -108,6 +173,7 @@ public class PassCode {
      */
     public String feedback() {
         // TODO
+        return null;
     }
     
     /**
@@ -120,5 +186,6 @@ public class PassCode {
      */
     public String[][] giveFeedback(String guess, int numGuess) {
         // TODO
+        return null;
     }
 }

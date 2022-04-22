@@ -19,6 +19,7 @@ public class Player {
      */
     public String getName() {
         // TODO
+        return null;
     }
     
     /**
@@ -26,6 +27,7 @@ public class Player {
      */
     public int getTotalPoints() {
         // TODO
+        return 0;
     }
     
     /**
@@ -33,6 +35,7 @@ public class Player {
      */
     public int addPoints() {
         // TODO
+        return 0;
     }
     
     /**
@@ -41,5 +44,6 @@ public class Player {
      */
     public int getGuess() {
         // TODO
+        return 0;
     }
 }
