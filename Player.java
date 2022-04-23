@@ -3,37 +3,38 @@ public class Player {
     public static final int MAX_NUM_OF_GUESSES = 8;
     public static final int MAX_ROWS_COLUMNS = 8;
 
-    
+
     private int totalPoints;
     private int numGuess;
     private String playerName;
     private String[][] gameBoard;
     private GuessAnalysis ga;
-    
+
     /**
      * Player constructor initializes board of guesses array
      * @param playerName The name of the player
      */
     public Player(String playerName) {
-        
+
         gameBoard = new String[MAX_ROWS_COLUMNS][MAX_ROWS_COLUMNS];
-        ga = new GuessAnalysis(); //Can we get rid of the seed since we are hard coding the testing?
+        //ga = new GuessAnalysis(); //Can we get rid of the seed since we are hard coding the testing?
+        numGuess = MAX_NUM_OF_GUESSES;
     }
-    
+
     /**
      * This is a getter method for playerName
      */
     public String getName() {
         return playerName;
     }
-    
+
     /**
      * This is a getter method for totalPoints
      */
     public int getTotalPoints() {
         return totalPoints;
     }
-    
+
     /**
      * Adds points to totalPoints for every guess made by a player
      */
@@ -41,16 +42,25 @@ public class Player {
         this.totalPoints += totalPoints;
 
     }
-    
+
+    /**
+     * Decreases numGuess by 1 for every guess player makes
+     * @param numGuess
+     */
+    public void decGuess(int numGuess) {
+        this.numGuess -= numGuess;
+    }
+
+
     /**
      * getter method for numGuess
      * @return numGuess
      */
     public int getGuess() {
-        // TODO
+        //
         return 0;
     }
-    
+
     /**
      * This method will return the String 2D array that continually
      * updates and stores each guess with its appropriate feedback per a single round.
@@ -60,19 +70,19 @@ public class Player {
      * @return gameBoard String 2D array of guesses and their appropriate feedback
      */
     public String [][] updateBoard(String guess, int numGuess) {
-        
+
         String playerFeedback = ga.feedback(guess);
-        int row = MAX_ROWS_COLUMNS - numGuess; 
+        int row = MAX_ROWS_COLUMNS - numGuess;
         // do we need to throw an error if numGuess is greater than 8??
-        
-        for (int i = 0; i < 4; i++) {  
-            gameBoard[row][i] = guess[i];
-        }
-        
+
         for (int i = 0; i < 4; i++) {
-            gameBoard[row][i + 4] = playerFeedback[i];
+            gameBoard[row][i] = guess.substring(i, i + 1);
         }
-        
+
+        for (int i = 0; i < 4; i++) {
+            gameBoard[row][i + 4] = playerFeedback.substring(i, i + 1);
+        }
+
         return gameBoard;
     }
 }
