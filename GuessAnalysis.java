@@ -22,6 +22,8 @@ public class GuessAnalysis {
 
     public static final char PURPLE = 'P';
 
+    public static final char[] COLORS = {'R', 'G', 'B', 'Y', 'O', 'P'};
+
     private String passcode;
 
 

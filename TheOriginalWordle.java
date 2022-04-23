@@ -24,26 +24,33 @@ public class TheOriginalWordle {
 
         Scanner console = new Scanner(System.in);
         String p1Name = console.nextLine();
-        
+
+        // Error checking - player 1 name
+
         while (p1Name.length() > MAX_NAME_CHARACTERS) {
             System.out.println("\nName too long - max 50 characters");
             System.out.print("Player 1 name? ");
             p1Name = console.nextLine();
         }
-                
+
+        Player player1 = new Player(p1Name);
+
         System.out.print("Player 2 name? ");
         String p2Name = console.nextLine();
-        
+
+        // Error checking - player 2 name
+
         while (p2Name.length() > MAX_NAME_CHARACTERS) {
             System.out.println("\nName too long - max 50 characters");
             System.out.print("Player 2 name? ");
             p2Name = console.nextLine();
         }
-        
-        Player p1Info = new Player(p1Name);
-        Player p2Info = new Player(p2Name);
+
+        Player player2 = new Player(p2Name);
 
         System.out.print("\nNumber of rounds? ");
+
+        // Error checking - number of rounds
 
         while (!console.hasNextInt()) {
             console.next();
@@ -75,133 +82,212 @@ public class TheOriginalWordle {
         System.out.println("\nNote : guess format must be 4 characters,");
         System.out.println("       no spaces included and no duplicates e.g. BOYG");
 
+        int round = 1;
         int p1numBlackPegs = 0;
         int p1numWhitePegs = 0;
         int p2numBlackPegs = 0;
         int p2numWhitePegs = 0;
-        int seed = Integer.parseInt(args[0]);
-        boolean playAgain = true;
-        
-        while (playAgain) {
 
-            for (int i = 1; i <= numRounds; i++) {
-    
-                for (int j = 1; j <= Player.MAX_NUM_OF_GUESSES; j++) {
-    
-                    GuessAnalysis p1 = new GuessAnalysis(seed        );
-                    GuessAnalysis p2 = new GuessAnalysis(seed * 2 + 1);
-    
-                    // DELETE BEFORE SUBMISSION - Shows passcodes
-                    String p1Passcode = p1.x();
-                    String p2Passcode = p2.x();
-                    System.out.println();
-                    System.out.println("p1Passcode : " + p1Passcode);
-                    System.out.println("p2Passcode : " + p2Passcode);
-    
-                    if (j != 1) {
-                        // Display p1 board
-                    }
-    
-                    System.out.println("\n[Round " + i + ", Guess " + j + "] " +
-                                       "Total Points for " + p1Info.getName() + " : " + p1Info.getTotalPoints());
-                    System.out.print(p1Info.getName() + ", please enter guess (R-ed, Y-ellow, B-lue, " +
-                                       "G-reen, O-range, P-urple): ");
-    
-                    String p1Guess = console.next();
-    
-                    // Error handling
-    
-                    if (p1.compareCode(p1Guess)) {
-                        // Correct guess!
-                    }
-    
-                    else {
-                        p1numBlackPegs = p1.numCorrectColorAndSlot(p1Guess);
-                        p1numWhitePegs = p1.numCorrectColor(p1Guess);
-                        p1Info.addPoints();
-                        
-                        if (j == Player.MAX_NUM_OF_GUESSES) {
-                            p1Info.addPoints();
-                            p1Info.addPoints();
+        for (int i = 1; i <= numRounds; i++) {
+
+            for (int j = 1; j <= Player.MAX_NUM_OF_GUESSES; j++) {
+
+                GuessAnalysis p1 = new GuessAnalysis(Integer.parseInt(args[0])        );
+            //    GuessAnalysis p2 = new GuessAnalysis(Integer.parseInt(args[0]) * 2 + 1);
+
+
+                // DELETE BEFORE SUBMISSION - Shows passcodes
+                String p1Passcode = p1.x();
+            //    String p2Passcode = p2.x();
+                System.out.println();
+                System.out.println("p1Passcode : " + p1Passcode);
+            //    System.out.println("p2Passcode : " + p2Passcode);
+
+                if (j != 1) {
+                    // Display p1 board
+                    System.out.println(player1.getBoard());
+                }
+
+                System.out.println("\n[Round " + round + ", Guess " + j + "] " +
+                                   "Total Points for " + player1.getName() + " : " +
+                                   player1.getTotalPoints());
+                System.out.print(player1.getName() + ", please enter guess (R-ed, Y-ellow, B-lue, " +
+                                   "G-reen, O-range, P-urple): ");
+
+                String p1Guess = console.next();
+
+                boolean guess = false;
+
+                //error handling
+                while (!guess) {
+
+                    int[] count = new int[6];
+                    for (int k = 0; k < p1Guess.length(); k++) {
+                        for(int l = 0; l < GuessAnalysis.COLORS.length; l++) {
+                            if (p1Guess.charAt(k) == GuessAnalysis.COLORS[l]) {
+                                count[l]++;
+                            }
                         }
                     }
-    
-                    if (j != 1) {
-                        // Display p2 board
-                    }
-    
-                    System.out.println("\n[Round " + i + ", Guess " + j + "] " +
-                                       "Total Points for " + p2Info.getName() + " : " + p2Info.getTotalPoints());
-                    System.out.print(p2Info.getName() + ", please enter guess (R-ed, Y-ellow, B-lue, " +
-                                       "G-reen, O-range, P-urple): ");
-    
-                    String p2Guess = console.next();
-    
-                    // Error handling
-    
-                    if (p2.compareCode(p2Guess)) {
-                        // Correct guess!
-                    }
-    
-                    else {
-                        p2numBlackPegs = p2.numCorrectColorAndSlot(p2Guess);
-                        p2numWhitePegs = p2.numCorrectColor(p2Guess);
-                        p2Info.addPoints();
-                        
-                        if (j == Player.MAX_NUM_OF_GUESSES) {
-                            p2Info.addPoints();
-                            p2Info.addPoints();
+
+                    int total = 0;
+
+                    for (int k = 0; k < count.length; k++) {
+                        if (count[k] != 0) {
+                            total++;
                         }
                     }
-    
-                    // ERASE : Original purpose to test numBlackPegs & numWhitePegs
-                    System.out.println("\n" + p1numBlackPegs + " & " + p1numWhitePegs);
-                    System.out.println(       p2numBlackPegs + " & " + p2numWhitePegs);
+
+                    if (total != 4) {
+                        guess = false;
+                        System.out.println("\nNote : guess format must be 4 characters,");
+                        System.out.println("       no spaces included and no duplicates e.g. BOYG");
+                        System.out.println("\n[Round " + round + ", Guess " + j + "] " +
+                                           "Total Points for " + player1.getName() + " : " +
+                                           player1.getTotalPoints());
+                        System.out.print(player1.getName() + ", please enter guess (R-ed, Y-ellow, B-lue, " +
+                                           "G-reen, O-range, P-urple): ");
+                        p1Guess = console.next();
+                    } else {
+                        guess = true;
+                    }
                 }
-    
-                System.out.println("\nTotals");
-                System.out.println(p1Info.getName() + " : " + p1Info.getTotalPoints() + " points");
-                System.out.println(p2Info.getName() + " : " + p2Info.getTotalPoints() + " points");
-    
-                if (i != numRounds) {
-                    System.out.println("\nNew codes have been initialized for both players.");
-                    System.out.println("Let's begin [Round " + (i + 1) + "]");
+
+                player1.addGuess();
+
+                if (p1.compareCode(p1Guess)) {
+                    // Correct guess!
+                    System.out.println("TODO: guess correctly message");
+                    break;
                 }
-                
-                seed = seed * 2 + 1;
+
+                else {
+                    p1numBlackPegs = p1.numCorrectColorAndSlot(p1Guess);
+                    p1numWhitePegs = p1.numCorrectColor(p1Guess);
+                    player1.addPoints();
+                    if (j == Player.MAX_NUM_OF_GUESSES) {
+                        player1.addPoints();
+                        player1.addPoints();
+                        System.out.println();
+                        System.out.println("TODO: code not solved in 8 guesses message");
+                    }
+                }
+
             }
-            
-            String response = "";
-    
-            if (p1Info.getTotalPoints() > p2Info.getTotalPoints()) {
-                System.out.println("\nCongratulations, " + p1Name + "! You are the winner!");
-                System.out.print("\nPlay again (Y-es, Q-uit)? ");
-                response = console.next();
-            } else if (p1Info.getTotalPoints() > p2Info.getTotalPoints()) {
-                System.out.println("\nCongratulations, " + p2Name + "! You are the winner!");
-                System.out.print("\nPlay again (Y-es, Q-uit)? ");
-                response = console.next();
-            } else {
-                System.out.println("\nOh no! It's a tie! Try playing again to settle the tiebreak.");
-                System.out.print("\nPlay again (Y-es, Q-uit)? ");
-                response = console.next();
+
+            System.out.println("\n" + p2Name + ", it is now your turn to play.");
+
+            for (int j = 1; j <= Player.MAX_NUM_OF_GUESSES; j++) {
+
+                GuessAnalysis p2 = new GuessAnalysis(Integer.parseInt(args[0]) * 2 + 1);
+
+
+                // DELETE BEFORE SUBMISSION - Shows passcodes
+                String p2Passcode = p2.x();
+                System.out.println();
+                System.out.println("p2Passcode : " + p2Passcode);
+
+                if (j != 1) {
+                    // Display p2 board
+
+                }
+
+                System.out.println("\n[Round " + round + ", Guess " + j + "] " +
+                                   "Total Points for " + player2.getName() + " : " +
+                                   player2.getTotalPoints());
+                System.out.print(p1Name + ", please enter guess (R-ed, Y-ellow, B-lue, " +
+                                   "G-reen, O-range, P-urple): ");
+
+                String p2Guess = console.next();
+                player2.addGuess();
+
+                boolean guess = false;
+
+                //error handling
+                while (!guess) {
+
+                    int[] count = new int[6];
+                    for (int k = 0; k < p2Guess.length(); k++) {
+                        for(int l = 0; l < GuessAnalysis.COLORS.length; l++) {
+                            if (p2Guess.charAt(k) == GuessAnalysis.COLORS[l]) {
+                                count[l]++;
+                            }
+                        }
+                    }
+
+                    int total = 0;
+
+                    for (int k = 0; k < count.length; k++) {
+                        if (count[k] != 0) {
+                            total++;
+                        }
+                    }
+
+                    if (total != 4) {
+                        guess = false;
+                        System.out.println("\nNote : guess format must be 4 characters,");
+                        System.out.println("       no spaces included and no duplicates e.g. BOYG");
+                        System.out.println("\n[Round " + round + ", Guess " + j + "] " +
+                                           "Total Points for " + player2.getName() + " : " +
+                                           player2.getTotalPoints());
+                        System.out.print(player2.getName() + ", please enter guess (R-ed, Y-ellow, B-lue, " +
+                                           "G-reen, O-range, P-urple): ");
+                        p2Guess = console.next();
+                    } else {
+                        guess = true;
+                    }
+                }
+
+                // Error handling
+
+                if (p2.compareCode(p2Guess)) {
+                    System.out.println("TODO: guess correctly message");
+                    break;
+                }
+
+                else {
+                    p2numBlackPegs = p2.numCorrectColorAndSlot(p2Guess);
+                    p2numWhitePegs = p2.numCorrectColor(p2Guess);
+                    player1.addPoints();
+                    if (j == Player.MAX_NUM_OF_GUESSES) {
+                        player2.addPoints();
+                        player2.addPoints();
+                        System.out.println();
+                        System.out.println("TODO: code not solved in 8 guesses message");
+                    }
+                }
+
+                // ERASE : Original purpose to test numBlackPegs & numWhitePegs
+                System.out.println("\n" + p1numBlackPegs + " & " + p1numWhitePegs);
+                System.out.println(       p2numBlackPegs + " & " + p2numWhitePegs);
             }
-    
-            // Error handling
-            
-            if (response.charAt(0) == 'Y' || response.charAt(0) == 'y') {
-                playAgain = true;
-                p1Info.resetPoints();
-                p2Info.resetPoints();
-                System.out.println("\nGreat! Let's begin.");
-            }
-            
-            else {
-                playAgain = false;
+
+            System.out.println("\nTotals");
+            System.out.println(player1.getName() + " : " + player1.getTotalPoints() + " points");
+            System.out.println(player2.getName() + " : " + player2.getTotalPoints() + " points");
+            round++;
+
+            if (round != numRounds + 1) {
+                System.out.println("\nNew codes have been initialized for both players.");
+                System.out.println("Let's begin [Round " + round + "]");
             }
         }
-        
-        System.out.println();
+
+        if (player1.getTotalPoints() > player2.getTotalPoints()) {
+            System.out.println("\nCongratulations, " + player1.getName() + "! You are the winner!");
+            System.out.print("\nPlay again (Y-es, Q-uit)? ");
+            String response = console.next();
+        } else if (player2.getTotalPoints() > player1.getTotalPoints()) {
+            System.out.println("\nCongratulations, " + player2.getName() + "! You are the winner!");
+            System.out.print("\nPlay again (Y-es, Q-uit)? ");
+            String response = console.next();
+        } else {
+            System.out.println("\nOh no! It's a tie! Try playing again to settle the tiebreak.");
+            System.out.print("\nPlay again (Y-es, Q-uit)? ");
+            String response = console.next();
+        }
+
+        // Error handling
     }
 
 
@@ -240,4 +326,5 @@ public class TheOriginalWordle {
 
         System.out.println("\nThis game is for 2 players.");
     }
+
 }

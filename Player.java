@@ -1,3 +1,5 @@
+import java.util.*;
+
 public class Player {
 
     public static final int MAX_NUM_OF_GUESSES = 8;
@@ -15,12 +17,12 @@ public class Player {
      * @param playerName The name of the player
      */
     public Player(String playerName) {
-
+        this.playerName = playerName;
         gameBoard = new String[MAX_ROWS_COLUMNS][MAX_ROWS_COLUMNS];
         //ga = new GuessAnalysis(); //Can we get rid of the seed since we are hard coding the testing?
-        numGuess = MAX_NUM_OF_GUESSES;
+        numGuess = 0;
         totalPoints = 0;
-        this.playerName = playerName;
+
     }
 
     /**
@@ -40,23 +42,17 @@ public class Player {
     /**
      * Adds points to totalPoints for every guess made by a player
      */
-    public int /* void */ addPoints(/*int totalPoints*/) { // Didn't want to erase but not sure what this was doing
-        // this.totalPoints += totalPoints; // Same one this line as well
+    public void addPoints() {
         totalPoints++;
-        return totalPoints;
-    }
-    
-    public int resetPoints() {
-        totalPoints = 0;
-        return totalPoints;
+
     }
 
     /**
      * Decreases numGuess by 1 for every guess player makes
      * @param numGuess
      */
-    public void decGuess(int numGuess) {
-        this.numGuess -= numGuess;
+    public void addGuess() {
+        numGuess++;
     }
 
 
@@ -92,5 +88,13 @@ public class Player {
         }
 
         return gameBoard;
+    }
+
+    public String getBoard() {
+        String s = "";
+        for (int i = numGuess - 1; i >= 0; i--) {
+            s += Arrays.toString(gameBoard[i]) + "\n";
+        }
+        return s;
     }
 }
