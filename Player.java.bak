@@ -62,7 +62,7 @@ public class Player {
     public String [][] updateBoard(String guess, int numGuess) {
         
         String playerFeedback = ga.feedback(guess);
-        int row = MAX_ROWS_COLUMNS - numGuess; 
+        int row = 8 - numGuess; 
         // do we need to throw an error if numGuess is greater than 8??
         
         for (int i = 0; i < 4; i++) {  

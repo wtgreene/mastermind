@@ -104,9 +104,9 @@ public class GuessAnalysis {
     
     /*
     
-    I think we can delete this method but leaving it for now just in case -I was thinking we could use this to get the total points
+    I think we can delete this method but leaving it for now just in case
     
-    public boolean isCorrectCode(String guess) {
+    public boolean isCorrectCode() {
         if (guess.equals(passcode)) {
             return true;
         }
