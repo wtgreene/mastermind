@@ -85,13 +85,14 @@ public class TheOriginalWordle {
         int p1numWhitePegs = 0;
         int p2numBlackPegs = 0;
         int p2numWhitePegs = 0;
+        int seed = Integer.parseInt(args[0]);
 
         for (int i = 1; i <= numRounds; i++) {
 
             for (int j = 1; j <= Player.MAX_NUM_OF_GUESSES; j++) {
 
-                GuessAnalysis p1 = new GuessAnalysis(Integer.parseInt(args[0])        );
-                GuessAnalysis p2 = new GuessAnalysis(Integer.parseInt(args[0]) * 2 + 1);
+                GuessAnalysis p1 = new GuessAnalysis(seed        );
+                GuessAnalysis p2 = new GuessAnalysis(seed * 2 + 1);
 
 
                 // DELETE BEFORE SUBMISSION - Shows passcodes
@@ -159,6 +160,8 @@ public class TheOriginalWordle {
                 System.out.println("\nNew codes have been initialized for both players.");
                 System.out.println("Let's begin [Round " + round + "]");
             }
+            
+            seed = seed * 2 + 1;
         }
 
         if (p1Points > p2Points) {
