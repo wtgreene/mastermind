@@ -19,6 +19,8 @@ public class Player {
         gameBoard = new String[MAX_ROWS_COLUMNS][MAX_ROWS_COLUMNS];
         //ga = new GuessAnalysis(); //Can we get rid of the seed since we are hard coding the testing?
         numGuess = MAX_NUM_OF_GUESSES;
+        totalPoints = 0;
+        this.playerName = playerName;
     }
 
     /**
@@ -38,9 +40,15 @@ public class Player {
     /**
      * Adds points to totalPoints for every guess made by a player
      */
-    public void addPoints(int totalPoints) {
-        this.totalPoints += totalPoints;
-
+    public int /* void */ addPoints(/*int totalPoints*/) { // Didn't want to erase but not sure what this was doing
+        // this.totalPoints += totalPoints; // Same one this line as well
+        totalPoints++;
+        return totalPoints;
+    }
+    
+    public int resetPoints() {
+        totalPoints = 0;
+        return totalPoints;
     }
 
     /**
