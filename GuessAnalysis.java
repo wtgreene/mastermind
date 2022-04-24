@@ -36,12 +36,13 @@ public class GuessAnalysis {
     public static final char[] COLORS = {'R', 'G', 'B', 'Y', 'O', 'P'};
 
     private String passcode;
-
+    private String[][] gameBoard;
+    private int numGuess;
 
     /**
      * PassCode constructor - creates new secret code
      */
-    public GuessAnalysis(int seed) { 
+    public GuessAnalysis(int seed) {
 
         Random rand = new Random(seed);
         char[] secretCodeList = new char[CODE_LENGTH];
@@ -208,6 +209,4 @@ public class GuessAnalysis {
         }
         return result;
     }
-
-
 }

@@ -11,6 +11,7 @@ public class Player {
     private String playerName;
     private String[][] gameBoard;
     private GuessAnalysis ga;
+    private int seed;
 
     /**
      * Player constructor initializes board of guesses array
@@ -18,13 +19,36 @@ public class Player {
      */
     public Player(String playerName, int seed) {
         this.playerName = playerName;
+        this.seed = seed;
         gameBoard = new String[MAX_ROWS_COLUMNS][MAX_ROWS_COLUMNS];
         ga = new GuessAnalysis(seed); 
         numGuess = 0;
         totalPoints = 0;
 
     }
+    
+    public String getX() {
+        return ga.x();
+    }
 
+    public void newRound() {
+        seed = seed * seed + 1;
+        ga = new GuessAnalysis(seed);
+        numGuess = 0;
+    }
+
+    public boolean getCompareCode(String guess) {
+        return ga.compareCode(guess);
+    }
+    
+    public int getNumCorrectColorAndSlot(String guess) {
+        return ga.numCorrectColorAndSlot(guess);
+    }
+    
+    public int getNumCorrectColor(String guess) {
+        return ga.numCorrectColor(guess);
+    }
+    
     /**
      * This is a getter method for playerName
      */
@@ -46,6 +70,11 @@ public class Player {
         totalPoints++;
 
     }
+    
+    public void resetPoints() {
+        totalPoints = 0;
+    }
+
 
     /**
      * Decreases numGuess by 1 for every guess player makes
@@ -55,16 +84,6 @@ public class Player {
         numGuess++;
     }
 
-
-    /**
-     * getter method for numGuess
-     * @return numGuess
-     */
-    public int getGuess() {
-        //
-        return 0;
-    }
-
     /**
      * This method will return the String 2D array that continually
      * updates and stores each guess with its appropriate feedback per a single round.
@@ -72,7 +91,7 @@ public class Player {
      * @param guess players attempted String guess of the hidden code
      * @param numGuess the guess number associated to the player's guess that is first passed in
      * @return gameBoard String 2D array of guesses and their appropriate feedback
-     */
+     */     
     public String [][] updateBoard(String guess, int numGuess) {
 
         String playerFeedback = ga.feedback(guess);
