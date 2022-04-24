@@ -16,10 +16,10 @@ public class Player {
      * Player constructor initializes board of guesses array
      * @param playerName The name of the player
      */
-    public Player(String playerName) {
+    public Player(String playerName, int seed) {
         this.playerName = playerName;
         gameBoard = new String[MAX_ROWS_COLUMNS][MAX_ROWS_COLUMNS];
-        //ga = new GuessAnalysis(); //Can we get rid of the seed since we are hard coding the testing?
+        ga = new GuessAnalysis(seed); 
         numGuess = 0;
         totalPoints = 0;
 
@@ -92,7 +92,7 @@ public class Player {
 
     public String getBoard() {
         String s = "";
-        for (int i = numGuess - 1; i >= 0; i--) {
+        for (int i = MAX_ROWS_COLUMNS - numGuess; i < MAX_ROWS_COLUMNS; i++) {
             s += Arrays.toString(gameBoard[i]) + "\n";
         }
         return s;

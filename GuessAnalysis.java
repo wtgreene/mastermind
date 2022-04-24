@@ -1,27 +1,38 @@
 import java.util.Random;
 
 public class GuessAnalysis {
-
+    
+    /** Length of hidden passcode and length of player's guess code*/
     public static final int CODE_LENGTH = 4;
 
+    /** Total number of color options for random hidden passcode.*/
     public static final int NUM_OF_COLORS = 6;
 
+    /** Char representing the black feedback peg indicating guessed color was the correct color and position.*/
     public static final int BLACK_PEG = 'B';
-
+    
+    /** Char representing the white feedback peg indicating guessed color was the correct color.*/
     public static final int WHITE_PEG = 'W';
 
+    /** Char representing the color red.*/
     public static final char RED = 'R';
 
+    /** Char representing the color green.*/
     public static final char GREEN = 'G';
 
+    /** Char representing the color blue.*/
     public static final char BLUE = 'B';
-
+    
+    /** Char representing the color yellow.*/
     public static final char YELLOW = 'Y';
 
+    /** Char representing the color orange.*/
     public static final char ORANGE = 'O';
 
+    /** Char representing the color purple.*/
     public static final char PURPLE = 'P';
 
+    /** Array of color options.*/
     public static final char[] COLORS = {'R', 'G', 'B', 'Y', 'O', 'P'};
 
     private String passcode;
@@ -30,7 +41,7 @@ public class GuessAnalysis {
     /**
      * PassCode constructor - creates new secret code
      */
-    public GuessAnalysis(int seed) { //Can we get rid of the seed since we are hard coding the testing?
+    public GuessAnalysis(int seed) { 
 
         Random rand = new Random(seed);
         char[] secretCodeList = new char[CODE_LENGTH];
@@ -176,6 +187,7 @@ public class GuessAnalysis {
     public String feedback(String guess) {
 
         String result = "";
+        String resultOne = "";
         int blackPeg = numCorrectColorAndSlot(guess);
         int whitePeg = numCorrectColor(guess);
 
@@ -187,10 +199,12 @@ public class GuessAnalysis {
             result += "w";
         }
 
-        if (result.length() < 4) {
-            for (int i = 0; i < (4 - result.length()); i++) {
-                result += " ";
+        if (result.length() < CODE_LENGTH) {
+            for (int i = 0; i < (CODE_LENGTH - result.length()); i++) {
+                resultOne += " ";
             }
+            
+            result = (result + resultOne);
         }
         return result;
     }

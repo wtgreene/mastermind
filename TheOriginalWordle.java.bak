@@ -160,7 +160,6 @@ public class TheOriginalWordle {
                 if (p1.compareCode(p1Guess)) {
                     // Correct guess!
                     System.out.println("Congratulations, " + player1.getName() + "! You have guessed the code!");
-                    player1.addPoints();
                     break;
                 }
 
@@ -246,7 +245,6 @@ public class TheOriginalWordle {
 
                 if (p2.compareCode(p2Guess)) {
                     System.out.println("Congratulations, " + player2.getName() + "! You have guessed the code!");
-                    player2.addPoints();
                     break;
                 }
 
