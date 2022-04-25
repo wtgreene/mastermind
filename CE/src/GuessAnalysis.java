@@ -190,11 +190,11 @@ public class GuessAnalysis {
         int whitePeg = numCorrectColor(guess);
 
         for (int i = 0; i < blackPeg; i++) {
-            result += "b";
+            result += BLACK_PEG;
         }
 
         for (int i = 0; i < whitePeg; i++) {
-            result += "w";
+            result += WHITE_PEG;
         }
 
         if (result.length() < CODE_LENGTH) {
