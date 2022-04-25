@@ -7,7 +7,6 @@ import java.util.*;
  * @author Casey Beise
  * @author Will Greene
  */
-
 public class Player {
 
     /** An integer value set to 8 representing how many times a single player can attempt to
@@ -18,13 +17,24 @@ public class Player {
         player’s game board */
     public static final int MAX_ROWS_COLUMNS = 8;
 
-
+    /** The number of points a player has */
     private int totalPoints;
+    
+    /** The number of guesses a player has made during a round */
     private int numGuess;
+    
+    /** Player's name */
     private String playerName;
+    
+    /** Array(s) representing each player's guess throughout each round */
     private String[][] gameBoard;
+    
+    /** Instance of GuessAnalysis class used to create new passcodes */
     private GuessAnalysis ga;
+    
+    /** Random seed provided for testing */
     private int seed;
+    
 
     /**
      * Player constructor initializes board of guesses array
@@ -37,16 +47,8 @@ public class Player {
         ga = new GuessAnalysis(seed);
         numGuess = 0;
         totalPoints = 0;
-
     }
 
-    /**
-     * gets PassCode
-     * @return passcode
-     */
-    public String getX() {
-        return ga.x();
-    }
 
     /**
      * Creates new GuessAnalysis object, and resets numGuess and gameBoard for each round
@@ -67,6 +69,7 @@ public class Player {
         numGuess = 0; //resets the number of guess for the round
     }
 
+
     /**
      * Compares the players guess to the passcode.
      * @return true if guess is equal to passcode.
@@ -76,13 +79,15 @@ public class Player {
         return ga.compareCode(guess);
     }
 
+
     /**
-     *Gets number of pegs in guess that are the same color and slot as the passcode.
+     * Gets number of pegs in guess that are the same color and slot as the passcode.
      * @return number of pegs in guess that are the same color and slot as the passcode.
      */
     public int getNumCorrectColorAndSlot(String guess) {
         return ga.numCorrectColorAndSlot(guess);
     }
+
 
     /**
      * Gets number of pegs in guess that are the same color as the passcode
@@ -92,6 +97,7 @@ public class Player {
         return ga.numCorrectColor(guess);
     }
 
+
     /**
      * This is a getter method for playerName
      * @return playerName
@@ -99,6 +105,7 @@ public class Player {
     public String getName() {
         return playerName;
     }
+
 
     /**
      * This is a getter method for totalPoints
@@ -108,6 +115,7 @@ public class Player {
         return totalPoints;
     }
 
+
     /**
      * Adds points to totalPoints for every guess made by a player
      */
@@ -115,6 +123,7 @@ public class Player {
         totalPoints++;
 
     }
+
 
     /**
      * Resets players totalPoints to zero for each new game
@@ -131,6 +140,7 @@ public class Player {
     public void addGuess() {
         numGuess++;
     }
+
 
     /**
      * This method will return the String 2D array that continually
@@ -157,8 +167,9 @@ public class Player {
         return gameBoard;
     }
 
+
     /**
-     *Creates a string representation of the gameBoard
+     * Creates a string representation of the gameBoard
      * @return s string representation of the gameBoard
      */
     public String getBoard() {

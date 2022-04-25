@@ -1,7 +1,14 @@
 import java.util.Random;
 
+/**
+ * GuessAnalysis Class for Team 2 CE - The Orginal Wordle
+ *
+ * @author Lyndsay Barnes
+ * @author Casey Beise
+ * @author Will Greene
+ */
 public class GuessAnalysis {
-    
+
     /** Length of hidden passcode and length of player's guess code*/
     public static final int CODE_LENGTH = 4;
 
@@ -10,7 +17,7 @@ public class GuessAnalysis {
 
     /** Char representing the black feedback peg indicating guessed color was the correct color and position.*/
     public static final int BLACK_PEG = 'b';
-    
+
     /** Char representing the white feedback peg indicating guessed color was the correct color.*/
     public static final int WHITE_PEG = 'w';
 
@@ -22,7 +29,7 @@ public class GuessAnalysis {
 
     /** Char representing the color blue.*/
     public static final char BLUE = 'B';
-    
+
     /** Char representing the color yellow.*/
     public static final char YELLOW = 'Y';
 
@@ -35,16 +42,24 @@ public class GuessAnalysis {
     /** Array of color options.*/
     public static final char[] COLORS = {'R', 'G', 'B', 'Y', 'O', 'P'};
 
+    /** Text string that each player must guess */
     private String passcode;
-    private String[][] gameBoard;
-    private int numGuess;
+        
 
     /**
      * PassCode constructor - creates new secret code
+     * @param seed -  number seed for passcode generation for testing
      */
     public GuessAnalysis(int seed) {
 
-        Random rand = new Random(seed);
+        Random rand;
+
+        if (seed != -1) {
+            rand = new Random(seed);
+        } else {
+            rand = new Random();
+        }
+
         char[] secretCodeList = new char[CODE_LENGTH];
 
         for (int i = 0; i < CODE_LENGTH; i++) {
@@ -94,6 +109,7 @@ public class GuessAnalysis {
         }
     }
 
+
     /**
      * Compares guess with passcode
      * @param guess player guess of secret code
@@ -101,7 +117,6 @@ public class GuessAnalysis {
      *         false if not is not equal to guess
      */
     public boolean compareCode(String guess) {
-        // TODO
         if (guess.equals(passcode)) {
             return true;
         }
@@ -111,26 +126,6 @@ public class GuessAnalysis {
         }
     }
 
-    public String x() {
-        return passcode;
-    }
-
-
-    /*
-
-    I think we can delete this method but leaving it for now just in case -I was thinking we could use this to get the total points
-
-    public boolean isCorrectCode(String guess) {
-        if (guess.equals(passcode)) {
-            return true;
-        }
-
-        else {
-            return false;
-        }
-    }
-
-    */
 
     /**
      * This method evaluates the players guess to determine if there are any colors in the
@@ -150,6 +145,7 @@ public class GuessAnalysis {
 
         return numBlack;
     }
+
 
     /**
      * This method evaluates the player's guess to determine if there are any colors
@@ -180,6 +176,7 @@ public class GuessAnalysis {
         return numWhite;
     }
 
+
     /**
      * Returns guess feedback pegs (black and white pegs)
      *
@@ -204,7 +201,7 @@ public class GuessAnalysis {
             for (int i = 0; i < (CODE_LENGTH - result.length()); i++) {
                 resultOne += " ";
             }
-            
+
             result = (result + resultOne);
         }
         return result;

@@ -8,23 +8,23 @@ import java.util.Random;
  * @author Casey Beise
  * @author Will Greene
  */
-
 public class TheOriginalWordle {
 
-        /** An integer value set to -1 representing the use of no seed */
-        public static final int RANDOM_GAME = -1;
+    /** An integer value set to -1 representing the use of no seed */
+    public static final int RANDOM_GAME = -1;
 
-        /** An integer that is set to 1 that represents the minimum number of rounds a player
-            can choose to play per game */
-        public static final int MIN_ROUNDS = 1;
+    /** An integer that is set to 1 that represents the minimum number of rounds a player
+        can choose to play per game */
+    public static final int MIN_ROUNDS = 1;
 
-        /** An integer value that is set to 10 that represents the maximum number of rounds a
-            player can choose to play per game */
-        public static final int MAX_ROUNDS = 10;
+    /** An integer value that is set to 10 that represents the maximum number of rounds a
+        player can choose to play per game */
+    public static final int MAX_ROUNDS = 10;
 
-        /** An integer value that is set to 50 that represents the maximum number of characters
-            allowed for a player's name */
-        public static final int MAX_NAME_CHARACTERS = 50;
+    /** An integer value that is set to 50 that represents the maximum number of characters
+        allowed for a player's name */
+    public static final int MAX_NAME_CHARACTERS = 50;
+
 
     /**
      * Starts The Original Wordle game
@@ -46,7 +46,7 @@ public class TheOriginalWordle {
             try {
                 seed = Integer.parseInt(args[0]);
             } catch (NumberFormatException e) {
-                System.out.println("Usage: java -cp bin VideoPokerGUI <seed>");
+                System.out.println("Usage: java -cp bin TheOriginalWordle <seed>\n");
                 System.exit(1);
             }
         }
@@ -58,7 +58,7 @@ public class TheOriginalWordle {
         Scanner console = new Scanner(System.in);
         String p1Name = console.nextLine();
 
-        // Error checking
+        // Error handling - p1Name
         while (p1Name.length() > MAX_NAME_CHARACTERS) {
             System.out.println("\nName too long - max 50 characters");
             System.out.print("Player 1 name? ");
@@ -68,7 +68,7 @@ public class TheOriginalWordle {
         System.out.print("Player 2 name? ");
         String p2Name = console.nextLine();
 
-        // Error checking
+        // Error handling - p2Name
         while (p2Name.length() > MAX_NAME_CHARACTERS) {
             System.out.println("\nName too long - max 50 characters");
             System.out.print("Player 2 name? ");
@@ -80,7 +80,7 @@ public class TheOriginalWordle {
 
         System.out.print("\nNumber of rounds? ");
 
-        // Error checking
+        // Error handling - numRounds
         while (!console.hasNextInt()) {
             console.next();
             System.out.println("\nInvalid number of rounds. " +
@@ -90,7 +90,7 @@ public class TheOriginalWordle {
 
         int numRounds = console.nextInt();
 
-        // Error checking
+        // Error handling - numRounds
         while (numRounds < MIN_ROUNDS || numRounds > MAX_ROUNDS) {
             System.out.println("\nInvalid number of rounds. " +
                                "Please enter an integer between 1 and 10, inclusive.");
@@ -118,16 +118,11 @@ public class TheOriginalWordle {
         int p2numWhitePegs = 0;
         boolean playAgain = true;
 
-        while (playAgain) { // Indent below rows
+        while (playAgain) {
 
             for (int i = 1; i <= numRounds; i++) {
 
                 for (int j = 1; j <= Player.MAX_NUM_OF_GUESSES; j++) {
-
-                    // DELETE BEFORE SUBMISSION - Shows passcodes
-                    String p1Passcode = player1.getX();
-                    System.out.println();
-                    System.out.println("p1Passcode : " + p1Passcode);
 
                     System.out.println("\n[Round " + i + ", Guess " + j + "] " +
                                        "Total Points for " + player1.getName() + " : " +
@@ -139,7 +134,7 @@ public class TheOriginalWordle {
 
                     boolean guess = false;
 
-                    //error handling
+                    // Error handling - guess format
                     while (!guess) {
 
                         int[] count = new int[6];
@@ -175,13 +170,12 @@ public class TheOriginalWordle {
                         }
                     }
 
-                    player1.addGuess(); // Don't need
+                    player1.addGuess();
                     player1.updateBoard(p1Guess, j);
                     System.out.println();
 
                     // Display p1 board
                     System.out.println(player1.getBoard());
-
 
                     if (player1.getCompareCode(p1Guess)) {
                         System.out.println("Congratulations, " + player1.getName() +
@@ -208,13 +202,7 @@ public class TheOriginalWordle {
                 System.out.println("\n" + player2.getName() + ", it is now your turn to play.");
 
                 for (int j = 1; j <= Player.MAX_NUM_OF_GUESSES; j++) {
-
-                    // DELETE BEFORE SUBMISSION - Shows passcodes
-                    String p2Passcode = player2.getX();
-                    System.out.println();
-                    System.out.println("p2Passcode : " + p2Passcode);
-
-
+                
                     System.out.println("\n[Round " + i + ", Guess " + j + "] " +
                                        "Total Points for " + player2.getName() + " : " +
                                        player2.getTotalPoints());
@@ -225,7 +213,7 @@ public class TheOriginalWordle {
 
                     boolean guess = false;
 
-                    //error handling
+                    // Error handling - guess format
                     while (!guess) {
 
                         int[] count = new int[6];
@@ -264,10 +252,9 @@ public class TheOriginalWordle {
                     player2.addGuess();
                     player2.updateBoard(p2Guess, j);
                     System.out.println();
+                    
                     // Display p2 board
                     System.out.println(player2.getBoard());
-
-                    // Error handling
 
                     if (player2.getCompareCode(p2Guess)) {
                         System.out.println("Congratulations, " + player2.getName() +
@@ -305,36 +292,52 @@ public class TheOriginalWordle {
                 player2.newRound();
             }
 
-            String response = "";
-
             if (player1.getTotalPoints() < player2.getTotalPoints()) {
                 System.out.println("\nCongratulations, " + player1.getName() +
                                    "! You are the winner!");
-                System.out.print("\nPlay again (Y-es, Q-uit)? ");
-                response = console.next();
             } else if (player2.getTotalPoints() < player1.getTotalPoints()) {
                 System.out.println("\nCongratulations, " + player2.getName() +
                                    "! You are the winner!");
-                System.out.print("\nPlay again (Y-es, Q-uit)? ");
-                response = console.next();
             } else {
                 System.out.println("\nOh no! It's a tie! " +
                                    "Try playing again to settle the tiebreak.");
-                System.out.print("\nPlay again (Y-es, Q-uit)? ");
-                response = console.next();
             }
 
-            if (response.charAt(0) == 'Y' || response.charAt(0) == 'y') {
-                playAgain = true;
-                player1.resetPoints();
-                player2.resetPoints();
-            }
-
-            else {
-                playAgain = false;
-                System.out.println();
+            System.out.println();
+            boolean valid = false;
+            
+            while (!valid) {
+                System.out.print("Play again (Y-es, Q-uit) ");
+                String response = console.next();
+                char option = response.charAt(0);
+                
+                while (response.length() != 1) {
+                    System.out.println("Invalid input.");
+                    System.out.print  ("Play again (Y-es, Q-uit) ");
+                    response = console.next();
+                    option = response.charAt(0);
+                }
+                
+                switch (option) {
+                    case 'Y':
+                    case 'y':
+                        valid = true;
+                        player1.resetPoints();
+                        player2.resetPoints();
+                        break;
+                    case 'Q':
+                    case 'q':
+                        valid = true;
+                        playAgain = false;
+                        break;
+                    default:
+                        System.out.println("Invalid input.");
+                        break;
+                }
             }
         }
+        
+        System.out.println();
     }
 
 
