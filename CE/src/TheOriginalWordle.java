@@ -1,5 +1,4 @@
 import java.util.Scanner;
-import java.util.Random;
 
 /**
  * TheOriginalWordle Class for Team 2 CE - The Orginal Wordle
@@ -40,8 +39,8 @@ public class TheOriginalWordle {
 
         int seed = RANDOM_GAME;
 
-        /** Citing help from the professor, the code below was assisted by reviewing Project5
-            instructions/logic. */
+        // Citing help from professor, 
+        // code below was assisted by reviewing Project5 instructions/logic.   
         if (args.length == 1) {
             try {
                 seed = Integer.parseInt(args[0]);

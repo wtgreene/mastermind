@@ -15,7 +15,7 @@ public class GuessAnalysis {
     /** Total number of color options for random hidden passcode.*/
     public static final int NUM_OF_COLORS = 6;
 
-    /** Char representing the black feedback peg indicating guessed color was the correct color and position.*/
+    /** Char representing black feedback peg indicating guessed color was correct color/position.*/
     public static final char BLACK_PEG = 'b';
 
     /** Char representing the white feedback peg indicating guessed color was the correct color.*/
@@ -132,6 +132,7 @@ public class GuessAnalysis {
      * correct sequence compared to the passcode. If found, the number of black pegs will be
      * incremented.
      *
+     * @param guess player guess of secret code
      * @return numBlack the number of black pegs needed in the feedback String.
      */
     public int numCorrectColorAndSlot(String guess) {
@@ -152,6 +153,7 @@ public class GuessAnalysis {
      * correctly guessed compared to the passcode. If found, the number of white pegs
      * will be incremented.
      *
+     * @param guess player guess of secret code
      * @return numWhite the number of white pegs needed in the feedback String.
      */
     public int numCorrectColor(String guess) {
@@ -180,6 +182,7 @@ public class GuessAnalysis {
     /**
      * Returns guess feedback pegs (black and white pegs)
      *
+     * @param guess player guess of secret code
      * @return feedBack code
      */
     public String feedback(String guess) {

@@ -16,6 +16,9 @@ public class Player {
     /** An integer value set to 8 representing the maximum number of rows and columns for the
         player’s game board */
     public static final int MAX_ROWS_COLUMNS = 8;
+    
+    /** Length of hidden passcode and length of player's guess code*/
+    public static final int CODE_LENGTH = 4;
 
     /** The number of points a player has */
     private int totalPoints;
@@ -38,7 +41,9 @@ public class Player {
 
     /**
      * Player constructor initializes board of guesses array
+     *
      * @param playerName The name of the player
+     * @param seed number seed for passcode generation for testing
      */
     public Player(String playerName, int seed) {
         this.playerName = playerName;
@@ -65,15 +70,19 @@ public class Player {
             ga = new GuessAnalysis(seed);
         }
 
-        gameBoard = new String[MAX_ROWS_COLUMNS][MAX_ROWS_COLUMNS]; //resets the gameBoard each round
-        numGuess = 0; //resets the number of guess for the round
+        //resets the gameBoard each round
+        gameBoard = new String[MAX_ROWS_COLUMNS][MAX_ROWS_COLUMNS];
+        //resets the number of guess for the round
+        numGuess = 0; 
     }
 
 
     /**
      * Compares the players guess to the passcode.
+     *
+     * @param guess player guess of secret code
      * @return true if guess is equal to passcode.
-     * @return false if guess is not equal to passcode.
+     *         false if guess is not equal to passcode.
      */
     public boolean getCompareCode(String guess) {
         return ga.compareCode(guess);
@@ -82,6 +91,8 @@ public class Player {
 
     /**
      * Gets number of pegs in guess that are the same color and slot as the passcode.
+     *
+     * @param guess player guess of secret code
      * @return number of pegs in guess that are the same color and slot as the passcode.
      */
     public int getNumCorrectColorAndSlot(String guess) {
@@ -91,6 +102,8 @@ public class Player {
 
     /**
      * Gets number of pegs in guess that are the same color as the passcode
+     *
+     * @param guess player guess of secret code
      * @return number of pegs in guess that are the same color as the passcode
      */
     public int getNumCorrectColor(String guess) {
@@ -135,7 +148,7 @@ public class Player {
 
     /**
      * Increases numGuess by 1 for every guess player makes
-     * @param numGuess
+     *
      */
     public void addGuess() {
         numGuess++;
@@ -154,14 +167,14 @@ public class Player {
 
         String playerFeedback = ga.feedback(guess);
         int row = MAX_ROWS_COLUMNS - numGuess;
-        // do we need to throw an error if numGuess is greater than 8??
+        
 
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < CODE_LENGTH; i++) {
             gameBoard[row][i] = guess.substring(i, i + 1);
         }
 
-        for (int i = 0; i < 4; i++) {
-            gameBoard[row][i + 4] = playerFeedback.substring(i, i + 1);
+        for (int i = 0; i < CODE_LENGTH; i++) {
+            gameBoard[row][i + CODE_LENGTH] = playerFeedback.substring(i, i + 1);
         }
 
         return gameBoard;
