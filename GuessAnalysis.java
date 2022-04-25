@@ -9,10 +9,10 @@ public class GuessAnalysis {
     public static final int NUM_OF_COLORS = 6;
 
     /** Char representing the black feedback peg indicating guessed color was the correct color and position.*/
-    public static final int BLACK_PEG = 'B';
+    public static final int BLACK_PEG = 'b';
     
     /** Char representing the white feedback peg indicating guessed color was the correct color.*/
-    public static final int WHITE_PEG = 'W';
+    public static final int WHITE_PEG = 'w';
 
     /** Char representing the color red.*/
     public static final char RED = 'R';
@@ -44,7 +44,14 @@ public class GuessAnalysis {
      */
     public GuessAnalysis(int seed) {
 
-        Random rand = new Random(seed);
+        Random rand;
+        
+        if (seed != -1) {
+            rand = new Random(seed);
+        } else {
+            rand = new Random();
+        }
+        
         char[] secretCodeList = new char[CODE_LENGTH];
 
         for (int i = 0; i < CODE_LENGTH; i++) {

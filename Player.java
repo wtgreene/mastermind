@@ -32,9 +32,19 @@ public class Player {
     }
 
     public void newRound() {
-        seed = seed * seed + 1;
-        ga = new GuessAnalysis(seed);
-        numGuess = 0;
+        
+        if (seed != -1) {
+            seed = seed * seed + 1;
+            ga = new GuessAnalysis(seed);
+            numGuess = 0;
+        } 
+        
+        else { 
+            ga = new GuessAnalysis(seed);
+        }
+        
+        gameBoard = new String[MAX_ROWS_COLUMNS][MAX_ROWS_COLUMNS]; //resets the gameBoard each round
+        numGuess = 0; //resets the number of guess for the round
     }
 
     public boolean getCompareCode(String guess) {
@@ -77,7 +87,7 @@ public class Player {
 
 
     /**
-     * Decreases numGuess by 1 for every guess player makes
+     * Increases numGuess by 1 for every guess player makes
      * @param numGuess
      */
     public void addGuess() {

@@ -18,7 +18,17 @@ public class TheOriginalWordle {
             System.exit(1);
         }
         
-        int seed = Integer.parseInt(args[0]);
+        int seed = RANDOM_GAME;
+        
+        /** Citing help from the professor, the code below was assisted by reviewing Project5 instructions/logic. */
+        if (args.length == 1) { 
+            try {
+                seed = Integer.parseInt(args[0]);
+            } catch (NumberFormatException e) {
+                System.out.println("Usage: java -cp bin VideoPokerGUI <seed>");
+                System.exit(1);
+            }
+        }
 
         displayWelcome();
 

@@ -9,10 +9,10 @@ public class GuessAnalysis {
     public static final int NUM_OF_COLORS = 6;
 
     /** Char representing the black feedback peg indicating guessed color was the correct color and position.*/
-    public static final int BLACK_PEG = 'B';
+    public static final int BLACK_PEG = 'b';
     
     /** Char representing the white feedback peg indicating guessed color was the correct color.*/
-    public static final int WHITE_PEG = 'W';
+    public static final int WHITE_PEG = 'w';
 
     /** Char representing the color red.*/
     public static final char RED = 'R';
@@ -36,12 +36,13 @@ public class GuessAnalysis {
     public static final char[] COLORS = {'R', 'G', 'B', 'Y', 'O', 'P'};
 
     private String passcode;
-
+    private String[][] gameBoard;
+    private int numGuess;
 
     /**
      * PassCode constructor - creates new secret code
      */
-    public GuessAnalysis(int seed) { 
+    public GuessAnalysis(int seed) {
 
         Random rand = new Random(seed);
         char[] secretCodeList = new char[CODE_LENGTH];
@@ -202,14 +203,10 @@ public class GuessAnalysis {
         if (result.length() < CODE_LENGTH) {
             for (int i = 0; i < (CODE_LENGTH - result.length()); i++) {
                 resultOne += " ";
-                System.out.println("HEre");
             }
             
             result = (result + resultOne);
-            System.out.println(result);
         }
         return result;
     }
-
-
 }
