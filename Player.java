@@ -1,8 +1,21 @@
 import java.util.*;
 
+/**
+ * Player Class for Team 2 CE - The Orginal Wordle
+ *
+ * @author Lyndsay Barnes
+ * @author Casey Beise
+ * @author Will Greene
+ */
+
 public class Player {
 
+    /** An integer value set to 8 representing how many times a single player can attempt to
+        guess the hidden passcode */
     public static final int MAX_NUM_OF_GUESSES = 8;
+
+    /** An integer value set to 8 representing the maximum number of rows and columns for the
+        player’s game board */
     public static final int MAX_ROWS_COLUMNS = 8;
 
 
@@ -21,46 +34,67 @@ public class Player {
         this.playerName = playerName;
         this.seed = seed;
         gameBoard = new String[MAX_ROWS_COLUMNS][MAX_ROWS_COLUMNS];
-        ga = new GuessAnalysis(seed); 
+        ga = new GuessAnalysis(seed);
         numGuess = 0;
         totalPoints = 0;
 
     }
-    
+
+    /**
+     * gets PassCode
+     * @return passcode
+     */
     public String getX() {
         return ga.x();
     }
 
+    /**
+     * Creates new GuessAnalysis object, and resets numGuess and gameBoard for each round
+     */
     public void newRound() {
-        
+
         if (seed != -1) {
             seed = seed * seed + 1;
             ga = new GuessAnalysis(seed);
             numGuess = 0;
-        } 
-        
-        else { 
+        }
+
+        else {
             ga = new GuessAnalysis(seed);
         }
-        
+
         gameBoard = new String[MAX_ROWS_COLUMNS][MAX_ROWS_COLUMNS]; //resets the gameBoard each round
         numGuess = 0; //resets the number of guess for the round
     }
 
+    /**
+     * Compares the players guess to the passcode.
+     * @return true if guess is equal to passcode.
+     * @return false if guess is not equal to passcode.
+     */
     public boolean getCompareCode(String guess) {
         return ga.compareCode(guess);
     }
-    
+
+    /**
+     *Gets number of pegs in guess that are the same color and slot as the passcode.
+     * @return number of pegs in guess that are the same color and slot as the passcode.
+     */
     public int getNumCorrectColorAndSlot(String guess) {
         return ga.numCorrectColorAndSlot(guess);
     }
-    
+
+    /**
+     * Gets number of pegs in guess that are the same color as the passcode
+     * @return number of pegs in guess that are the same color as the passcode
+     */
     public int getNumCorrectColor(String guess) {
         return ga.numCorrectColor(guess);
     }
-    
+
     /**
      * This is a getter method for playerName
+     * @return playerName
      */
     public String getName() {
         return playerName;
@@ -68,6 +102,7 @@ public class Player {
 
     /**
      * This is a getter method for totalPoints
+     * @return totalPoints
      */
     public int getTotalPoints() {
         return totalPoints;
@@ -80,7 +115,10 @@ public class Player {
         totalPoints++;
 
     }
-    
+
+    /**
+     * Resets players totalPoints to zero for each new game
+     */
     public void resetPoints() {
         totalPoints = 0;
     }
@@ -101,7 +139,7 @@ public class Player {
      * @param guess players attempted String guess of the hidden code
      * @param numGuess the guess number associated to the player's guess that is first passed in
      * @return gameBoard String 2D array of guesses and their appropriate feedback
-     */     
+     */
     public String [][] updateBoard(String guess, int numGuess) {
 
         String playerFeedback = ga.feedback(guess);
@@ -119,6 +157,10 @@ public class Player {
         return gameBoard;
     }
 
+    /**
+     *Creates a string representation of the gameBoard
+     * @return s string representation of the gameBoard
+     */
     public String getBoard() {
         String s = "";
         for (int i = MAX_ROWS_COLUMNS - numGuess; i < MAX_ROWS_COLUMNS; i++) {

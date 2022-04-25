@@ -1,7 +1,15 @@
 import java.util.Random;
 
+/**
+ * GuessAnalysis Class for Team 2 CE - The Orginal Wordle
+ *
+ * @author Lyndsay Barnes
+ * @author Casey Beise
+ * @author Will Greene
+ */
+
 public class GuessAnalysis {
-    
+
     /** Length of hidden passcode and length of player's guess code*/
     public static final int CODE_LENGTH = 4;
 
@@ -10,7 +18,7 @@ public class GuessAnalysis {
 
     /** Char representing the black feedback peg indicating guessed color was the correct color and position.*/
     public static final int BLACK_PEG = 'b';
-    
+
     /** Char representing the white feedback peg indicating guessed color was the correct color.*/
     public static final int WHITE_PEG = 'w';
 
@@ -22,7 +30,7 @@ public class GuessAnalysis {
 
     /** Char representing the color blue.*/
     public static final char BLUE = 'B';
-    
+
     /** Char representing the color yellow.*/
     public static final char YELLOW = 'Y';
 
@@ -41,17 +49,18 @@ public class GuessAnalysis {
 
     /**
      * PassCode constructor - creates new secret code
+     * @param seed -  number seed for passcode generation for testing
      */
     public GuessAnalysis(int seed) {
 
         Random rand;
-        
+
         if (seed != -1) {
             rand = new Random(seed);
         } else {
             rand = new Random();
         }
-        
+
         char[] secretCodeList = new char[CODE_LENGTH];
 
         for (int i = 0; i < CODE_LENGTH; i++) {
@@ -108,7 +117,6 @@ public class GuessAnalysis {
      *         false if not is not equal to guess
      */
     public boolean compareCode(String guess) {
-        // TODO
         if (guess.equals(passcode)) {
             return true;
         }
@@ -118,6 +126,10 @@ public class GuessAnalysis {
         }
     }
 
+    /**
+     * Gets PassCode
+     * @return PassCode
+     */
     public String x() {
         return passcode;
     }
@@ -211,7 +223,7 @@ public class GuessAnalysis {
             for (int i = 0; i < (CODE_LENGTH - result.length()); i++) {
                 resultOne += " ";
             }
-            
+
             result = (result + resultOne);
         }
         return result;
